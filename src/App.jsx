@@ -9,6 +9,10 @@ function App() {
   const [isSearch, setIsSearch] = useState(true)
   const [noResults, setNoResults] = useState(false)
 
+  const onFailedConnection = err => {
+    return alert(`Connection failure ${err}. Please try again later.`)
+  }
+
   const searchMovies = async formData => {
     setMoviesData([])
     const searchQuery = formData.get("search-query")
@@ -16,21 +20,25 @@ function App() {
     // if searchQuery is an empty string
     if (!searchQuery) return setNoResults(true)
 
-    const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)
-    const data = await response.json()
+    try {
+      const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)
+      const data = await response.json()
     
+      // if there's no results
+      if (!data.Response) return
 
-    // if there's no results
-    if (!data.Response) return
-
-    setmoviesBasics(data.Search)
-    setIsSearch(true)
+      setmoviesBasics(data.Search)
+      setIsSearch(true)
+    } catch(err) {
+      onFailedConnection(err)
+    }
   }
   // fetch movies data using fetched ids
   useEffect(()=>{
     if (moviesBasics) {
       moviesBasics.map(async movie =>{
         const movieId = movie.imdbID
+        try {
         const movieResponse = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movieId}`)
         const movieData = await movieResponse.json()
         setMoviesData(prev => {
@@ -42,6 +50,9 @@ function App() {
             }
           ]
         })
+        } catch(err){
+          onFailedConnection(err)
+        }
       })
     } else {
       setNoResults(true)
