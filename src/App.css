@@ -140,6 +140,8 @@ main {
 
   color: white;
   text-decoration: none;
+
+  cursor: pointer;
 }
 
 .movie-description {

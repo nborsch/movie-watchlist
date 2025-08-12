@@ -73,7 +73,7 @@ function App() {
         genres={movie.Genre}
         description={movie.Plot}
         cover={movie.Poster}
-        isInWatchlist={movie.isInWatchlist}
+        isInWatchlist={watchlist.has(movie.imdbID)}
       />
     )
   })
@@ -94,7 +94,7 @@ function App() {
           genres={movie.Genre}
           description={movie.Plot}
           cover={movie.Poster}
-          isInWatchlist={movie.isInWatchlist}
+          isInWatchlist={watchlist.has(movie.imdbID)}
         />
       )
     })
