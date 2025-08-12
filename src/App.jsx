@@ -29,6 +29,7 @@ function App() {
 
       setmoviesBasics(data.Search)
       setIsSearch(true)
+
     } catch(err) {
       onFailedConnection(err)
     }
@@ -39,17 +40,18 @@ function App() {
       moviesBasics.map(async movie =>{
         const movieId = movie.imdbID
         try {
-        const movieResponse = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movieId}`)
-        const movieData = await movieResponse.json()
-        setMoviesData(prev => {
-          return [
-            ...prev,
-            {
-              ...movieData,
-              isInWatchlist: false
-            }
-          ]
-        })
+          const movieResponse = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movieId}`)
+          const movieData = await movieResponse.json()
+          setMoviesData(prev => {
+            return [
+              ...prev,
+              {
+                ...movieData,
+                isInWatchlist: false
+              }
+            ]
+          })
+
         } catch(err){
           onFailedConnection(err)
         }
@@ -118,9 +120,9 @@ function App() {
   const togglePage = () => setIsSearch(prev => !prev)
 
   const mainClasses = () => {
-    if (isSearch && !moviesEls.length && !noResults) return 'initial search-movies'
-    if (!isSearch && watchlist.size === 0) return 'initial empty-watchlist'
-    if (isSearch && noResults) return 'initial no-results'
+    if (isSearch && !moviesEls.length && !noResults) return 'search-movies'
+    if (!isSearch && watchlist.size === 0) return 'empty-watchlist'
+    if (isSearch && noResults) return 'no-results'
   }
 
   return (
