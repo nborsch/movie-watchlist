@@ -12,10 +12,17 @@ function App() {
   const searchMovies = async formData => {
     setMoviesData([])
     const searchQuery = formData.get("search-query")
-    const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)    
+
+    // if searchQuery is an empty string
+    if (!searchQuery) return setNoResults(true)
+
+    const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)
     const data = await response.json()
+    
+
     // if there's no results
     if (!data.Response) return
+
     setmoviesBasics(data.Search)
     setIsSearch(true)
   }
