@@ -61,7 +61,7 @@ function App() {
     })
   }
 
-  const moviesEls = moviesData.map(movie => {
+  const makeMovies = (movie) => {
     return (
       <Movie 
         key={movie.imdbID}
@@ -76,30 +76,21 @@ function App() {
         isInWatchlist={watchlist.has(movie.imdbID)}
       />
     )
-  })
+  }
 
-  const togglePage = () => setIsSearch(prev => !prev)
+  const moviesEls = moviesData.map(movie => {
+    return makeMovies(movie)
+  })
 
   const watchlistEls = () => {
     const elements = []
     watchlist.forEach((movie) => {
-      elements.push(
-        <Movie 
-          key={movie.imdbID}
-          id={movie.imdbID}
-          onClick={toggleWatchlist}
-          title={movie.Title}
-          rating={movie.Ratings.length ? movie.Ratings[0].Value.split('/')[0] : ''}
-          duration={movie.Runtime}
-          genres={movie.Genre}
-          description={movie.Plot}
-          cover={movie.Poster}
-          isInWatchlist={watchlist.has(movie.imdbID)}
-        />
-      )
+      elements.push( makeMovies(movie) )
     })
     return elements
   }
+
+  const togglePage = () => setIsSearch(prev => !prev)
 
   const mainClasses = () => {
     if (isSearch && !moviesEls.length) return 'initial search-movies'
