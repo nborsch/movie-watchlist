@@ -1,0 +1,157 @@
+#root {
+  display: grid;
+  grid-auto-columns: minmax(330px, 550px);
+  grid-template-rows: 200px 1fr 60px;
+  
+  height: 100vh;
+  margin: auto;
+
+  --lightgrey: #A5A5A5;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  padding: 0 45px;
+  background-image: url("./header-bg.png");
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+header a {
+  text-decoration: none;
+  color: white;
+}
+
+form {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -18px;
+  margin: auto;
+
+
+  display: flex;
+  width: 90%;
+  max-width: 430px;
+  gap: 0;
+}
+
+form input {
+  width: 100%;
+  height: 35px;
+
+  color: var(--lightgrey);
+  background-color: rgb(46, 46, 47);
+  background-image: url('./icon-search.png');
+  background-repeat: no-repeat;
+  background-position: center left 5px;
+  text-indent: 25px;
+
+  border: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+form button {
+  cursor: pointer;
+  color: whitesmoke;
+  background-color: #4B4B4B;
+
+  border: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+main {
+  padding: 45px;
+}
+
+.initial {
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.empty-watchlist {
+  background-image: url('./empty-watchlist.png');
+}
+
+.search-movies {
+  background-image: url('./search-bg.png');
+}
+
+.no-results {
+  background-image: url('./no-results.png');
+}
+
+.movie {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  
+  border-bottom: 1px solid #2C2C2C;
+  padding: 20px 0;
+}
+
+.movie-info,
+.movie-description {
+  margin: 0;
+}
+
+.movie > img {
+  width: 100px;
+}
+
+.movie p:first-of-type {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.movie-title {
+  font-size: 1.125rem;
+}
+
+.icon-star {
+  height: 13px;
+}
+
+.rating {
+  font-size: 12px;
+}
+
+.movie-extras {
+  display: flex;
+  justify-content: space-between;
+
+  margin: 15px 0;
+  font-size: 12px;
+}
+
+.movie-add-watchlist {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: white;
+  text-decoration: none;
+}
+
+.movie-description {
+  font-size: 14px;
+  color: var(--lightgrey);
+  line-height: 1.4;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4f4f51;
+  background-color: rgb(35, 35, 35);
+}
