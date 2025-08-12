@@ -7,31 +7,38 @@ function App() {
   const [moviesData, setMoviesData] = useState([])
   const [watchlist, setWatchlist] = useState(new Map())
   const [isSearch, setIsSearch] = useState(true)
+  const [noResults, setNoResults] = useState(false)
 
   const searchMovies = async formData => {
     setMoviesData([])
     const searchQuery = formData.get("search-query")
-    const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)
+    const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${searchQuery}`)    
     const data = await response.json()
+    // if there's no results
+    if (!data.Response) return
     setmoviesBasics(data.Search)
     setIsSearch(true)
   }
   // fetch movies data using fetched ids
   useEffect(()=>{
-    moviesBasics.map(async movie =>{
-      const movieId = movie.imdbID
-      const movieResponse = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movieId}`)
-      const movieData = await movieResponse.json()
-      setMoviesData(prev => {
-        return [
-          ...prev,
-          {
-            ...movieData,
-            isInWatchlist: false
-          }
-        ]
+    if (moviesBasics) {
+      moviesBasics.map(async movie =>{
+        const movieId = movie.imdbID
+        const movieResponse = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movieId}`)
+        const movieData = await movieResponse.json()
+        setMoviesData(prev => {
+          return [
+            ...prev,
+            {
+              ...movieData,
+              isInWatchlist: false
+            }
+          ]
+        })
       })
-    })
+    } else {
+      setNoResults(true)
+    }
   }, [moviesBasics])
 
   const toggleWatchlist = id => {
@@ -93,8 +100,9 @@ function App() {
   const togglePage = () => setIsSearch(prev => !prev)
 
   const mainClasses = () => {
-    if (isSearch && !moviesEls.length) return 'initial search-movies'
+    if (isSearch && !moviesEls.length && !noResults) return 'initial search-movies'
     if (!isSearch && watchlist.size === 0) return 'initial empty-watchlist'
+    if (isSearch && noResults) return 'initial no-results'
   }
 
   return (
