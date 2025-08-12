@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Movie from './Movie'
+import Header from './Header'
 import './App.css'
 
 function App() {
@@ -88,7 +89,7 @@ function App() {
     })
   }
 
-  const makeMovies = (movie) => {
+  const generateMovieEls = (movie) => {
     return (
       <Movie 
         key={movie.imdbID}
@@ -106,13 +107,13 @@ function App() {
   }
 
   const moviesEls = moviesData.map(movie => {
-    return makeMovies(movie)
+    return generateMovieEls(movie)
   })
 
   const watchlistEls = () => {
     const elements = []
     watchlist.forEach((movie) => {
-      elements.push( makeMovies(movie) )
+      elements.push( generateMovieEls(movie) )
     })
     return elements
   }
@@ -127,14 +128,11 @@ function App() {
 
   return (
     <>
-      <header>
-          <h1>{isSearch ? 'Find your film' : 'My watchlist'}</h1>
-          <nav><a onClick={togglePage} href={null}>{isSearch ? 'My watchlist' : 'Find your film'}</a></nav>
-          <form action={searchMovies}>
-              <input name="search-query" type="search" placeholder="Search for a movie" />
-              <button type="submit">Search</button>
-          </form>
-      </header>
+      <Header 
+        isSearch={isSearch}
+        togglePage={togglePage}
+        searchMovies={searchMovies}
+      />
       <main className={mainClasses()}>
         {isSearch ? moviesEls : watchlistEls() }
       </main>
