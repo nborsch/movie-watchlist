@@ -36,16 +36,17 @@ function App() {
     }
   }
   // fetch movies data using fetched ids
-    useEffect(()=>{
+  useEffect(()=>{
     if (moviesBasics) {
 
       async function getMovies() {
-        const moviesPromises = moviesBasics.map(movie => {
-          return fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movie.imdbID}`)
+        const moviesPromises = moviesBasics.map(async movie => {
+          const response = await fetch(`api?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${movie.imdbID}`)
+          const data = await response.json()
+          return data
         })
 
-        const moviesResponses = await Promise.all(moviesPromises) 
-        const moviesData = await Promise.all(moviesResponses.map(response => response.json()))
+        const moviesData = await Promise.all(moviesPromises) 
         
         moviesData.map(movieData => {
           setMoviesData(prev => {
