@@ -37,7 +37,6 @@ function App() {
   }
   // fetch movies data using fetched ids
   useEffect(()=>{
-    if (moviesBasics) {
 
       async function getMovies() {
         const moviesPromises = moviesBasics.map(async movie => {
@@ -46,21 +45,27 @@ function App() {
           return data
         })
 
-        const moviesData = await Promise.all(moviesPromises) 
-        
-        moviesData.map(movieData => {
-          setMoviesData(prev => {
-            return [
-              ...prev,
-              {
-                ...movieData,
-                isInWatchlist: false
-              }
-            ]
+        try {
+          const moviesData = await Promise.all(moviesPromises) 
+          
+          moviesData.map(movieData => {
+            setMoviesData(prev => {
+              return [
+                ...prev,
+                {
+                  ...movieData,
+                  isInWatchlist: false
+                }
+              ]
+            })
           })
-        })
+        } catch(err){
+          onFailedConnection(err)
+        }
+        
       }
 
+    if (moviesBasics) {
       getMovies()
 
     } else {
